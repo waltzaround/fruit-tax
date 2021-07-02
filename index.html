@@ -1,73 +1,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<link href="https://fonts.googleapis.com/css?family=Barlow&display=swap" rel="stylesheet">
-<style>
-  html {
-    font-family: Barlow, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+<link rel="stylesheet" href="style.css">
 
-  }
-
-  body {
-    margin: 0;
-    text-align: center;
-  }
-
-  h1 {
-    margin: 0;
-  }
-
-  p {
-    margin: 1rem 0;
-  }
-
-  .explainer {
-    padding: 0.5rem;
-  }
-
-  .Blocker {
-
-    position: fixed;
-    background-color: red;
-    width: 100vw;
-    height: 100vh;
-    display: grid;
-    justify-content: center;
-    align-items: center;
-    display: none;
-  }
-
-  .BlockerText {
-    text-transform: uppercase;
-    display: grid;
-    margin: 0 auto;
-    color: white;
-    font-size: 2rem;
-    background-color: darkred;
-    padding: 4rem;
-    height: 4rem;
-    width: 20rem;
-    text-align: center;
-    border: 4px solid white;
-    border-radius: 8px;
-
-    justify-content: center;
-    align-items: center;
-
-  }
-
-  .player {
-    display: flex;
-    justify-content: center;
-    width: 100vw;
-  }
-
-  .invisible {
-    display: none;
-  }
-</style>
 
 <body>
+  <header class='mac-menu'>
+    <div class='mac-menu-container'>
+      <img src='./assets/apple.svg' />
+      <a class='mac-menu-item'>Mac</a>
+      <a class='mac-menu-item'>iPad</a>
+      <a class='mac-menu-item'>iPhone</a>
+      <a class='mac-menu-item'>Watch</a>
+      <a class='mac-menu-item'>TV</a>
+      <a class='mac-menu-item'>Music</a>
+      <a class='mac-menu-item'>Support</a>
 
-  <div id="info" class="text-center">
+      <img src='./assets/search.svg' class='mac-menu-search' />
+      <img src='./assets/bag.svg' class='mac-menu-bag' />
+
+
+    </div>
+  </header>
+  <section class='mac-product-title'>
+    <div class='mac-product-title-container'>
+      <h1 class='mac-product-name'>iPhone 12 Pro</h1>
+      <p class='mac-product-price'>From NZ $1,899</p>
+    </div>
+  </section>
+  <section class='mac-promo'>
+    <p>0% Interest available. <a href='https://www.apple.com/nz/shop/browse/financing'>Learn more ></a></p>
+  </section>
+  <section class='mac-product'>
+    <div class='mac-product-wrapper'>
+      <div>
+        <img src='./assets/iphone.jpeg' />
+      </div>
+      <div></div>
+
+    </div>
+
+
+  </section>
+
+
+
+  <div id="info" class="text-center" hidden>
     OpenCV.js is loading...
   </div>
   <div id="container">
@@ -98,6 +74,6 @@
     _main: function () { opencvIsReady(); }
   };
 </script>
-<script async src="videotest.js"></script>
+<!-- <script async src="videotest.js"></script> -->
 
 <script async src="https://huningxin.github.io/opencv.js/build/asm.js/opencv.js"></script>
