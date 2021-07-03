@@ -103,7 +103,6 @@
   .mac-product-image-sticky {
       position: sticky;
       top: 0;
-      z-index: -2;
   }
 
   .mac-product-wrapper {
@@ -358,6 +357,4 @@
   .contactgrid p {
       font-weight: 500;
       margin-top: 0.2rem;
-  }
-
   }
