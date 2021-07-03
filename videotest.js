@@ -6,6 +6,21 @@ let vga = {width: {exact: 640}, height: {exact: 480}};
 
 let resolution = window.innerWidth < 640 ? qvga : vga;
 
+let price = 1899;
+
+const renderPrice = (p) => {
+  var formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+
+  // These options are needed to round to whole numbers if that's what you want.
+  //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+  //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+});
+
+ return formatter.format(p); /* $2,500.00 */
+}
+
 // whether streaming video from the camera.
 let streaming = false;
 
@@ -117,6 +132,23 @@ function processVideo() {
       let face = faceVect.get(i);
       lookingAtScreen = true;
       console.log('Human is watching');
+
+      // will
+      price += 1;
+      const elms = document.querySelectorAll(".base-price");
+      for (let i = 0; i < elms.length; i++) {
+        let elm = elms[i];
+        elm.innerText = renderPrice(price);
+      }
+      
+      const proElm = document.querySelector(".pro-price");
+      proElm.innerText = renderPrice(price + 300);
+
+      const taxElm = document.querySelector(".tax-price");
+      taxElm.innerText = renderPrice(price + 300);
+
+      //
+
       faces.push(new cv.Rect(face.x, face.y, face.width, face.height));
       if (detectEye.checked) {
         let eyeVect = new cv.RectVector();

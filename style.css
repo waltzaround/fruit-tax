@@ -11,9 +11,13 @@
       color: #2767C5;
   }
 
+  a:hover {
+      text-decoration: underline;
+  }
+
   body {
       margin: 0;
-      text-align: center;
+      min-height: 200vh;
   }
 
   .invisible {
@@ -23,7 +27,7 @@
   .mac-menu {
       width: 100%;
       height: 44px;
-      background: rgba(0, 0, 0, 0.8);
+      background: #333;
   }
 
   .mac-logo {
@@ -55,6 +59,9 @@
 
   .mac-product-title {
       border-bottom: 1px solid lightgray;
+      position: sticky;
+      top: 0px;
+      background-color: white;
   }
 
   .mac-product-title-container {
@@ -85,7 +92,272 @@
 
   .mac-product {}
 
+  .mac-product-img {
+      width: 450px;
+  }
+
+  .mac-product-image-column {
+      flex-basis: 50%;
+      max-width: 50%;
+  }
+
+  .mac-product-image-sticky {
+      position: sticky;
+      top: 0;
+      z-index: -2;
+  }
+
   .mac-product-wrapper {
       max-width: 980px;
-      margin: 2rem auto;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: row;
+  }
+
+  /* Product detail section */
+
+  .mac-product-about-container {
+      padding-top: 40px;
+      margin-left: 8.33333%;
+      text-align: left;
+      flex-basis: 41.66667%;
+      max-width: 41.66667%;
+  }
+
+  .apple-new-flag {
+      color: #bf4800;
+      text-align: left;
+      font-size: 17px;
+      line-height: 1.47059;
+      font-weight: 400;
+      letter-spacing: 1px;
+      padding-bottom: 1px;
+  }
+
+  .mac-product-about-title {
+      font-size: 40px;
+      font-weight: 500;
+  }
+
+  .mac-pad-32 {
+      padding-top: 32px;
+  }
+
+  .mac-pad-2 {
+      padding-top: 24px;
+      padding-bottom: 12px;
+  }
+
+  .mac-product-heading-2 {
+      font-size: 17px;
+      line-height: 1.47059;
+      font-weight: 300;
+      letter-spacing: 0.01em;
+      font-family: SF Pro Text, SF Pro Icons, AOS Icons, Helvetica Neue, Helvetica, Arial, sans-serif;
+      font-weight: 500;
+  }
+
+  .mac-product-help-link {
+      padding-top: 0.5rem;
+      font-size: 0.9rem;
+      display: block;
+      font-weight: 400;
+  }
+
+  .mac-product-selection {
+      width: 100%;
+  }
+
+  .mac-product-selection-input {
+      margin-top: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid lightgray;
+  }
+
+  .mac-product-selection-container {
+      outline: none;
+      border-width: 2px;
+      padding: 14px;
+      color: #1d1d1f;
+      border-color: #d2d2d7;
+      background-color: hsla(0, 0%, 100%, .8);
+      font-size: 17px;
+      line-height: 1.23536;
+      font-weight: 400;
+      letter-spacing: -.022em;
+      font-family: SF Pro Text, SF Pro Icons, Helvetica Neue, Helvetica, Arial, sans-serif;
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      border-width: 1px;
+      border-style: solid;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
+      text-align: center;
+      box-sizing: border-box;
+      cursor: pointer;
+      min-height: 4.88235rem;
+      width: 100%;
+      margin-bottom: 0.85rem;
+  }
+
+  .mac-product-selection-row {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: row;
+      width: 100%;
+      align-items: center;
+      min-height: 51px;
+  }
+
+  .mac-product-selection-title {
+      font-size: 17px;
+      text-align: left;
+      font-weight: 600;
+      letter-spacing: 0.15px;
+  }
+
+  .mac-product-selection-subtitle {
+      font-size: 12px;
+      line-height: 1.33337;
+      font-weight: 400;
+      text-align: left;
+      letter-spacing: 0.1px;
+  }
+
+  .mac-product-selection-price {
+      letter-spacing: 0.2px;
+      display: inline;
+  }
+
+  .mac-product-selection-row-money {
+      display: inline;
+      margin-left: -4px;
+  }
+
+  .colorgrid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+  }
+
+  .coloritem {
+      border-radius: 12px;
+      border-width: 1px;
+      border-style: solid;
+      color: #1d1d1f;
+      border-color: #d2d2d7;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 102px;
+      gap: 0.5rem;
+  }
+
+  .coloritem img {
+      width: 32px;
+      height: 32px;
+      margin: 0 auto;
+  }
+
+  .coloritem p {
+      font-size: 12px;
+      text-align: center;
+  }
+
+  .pricing {
+      margin-top: 1rem;
+      background-color: #fbfbfd;
+      width: 100%;
+      padding: 30px;
+      box-sizing: border-box;
+  }
+
+  .pricingH2 {
+      font-size: 32px;
+      line-height: 1.125;
+      font-weight: 600;
+      letter-spacing: .004em;
+  }
+
+  .tax {
+      font-size: 14px;
+      line-height: 1.42859;
+      font-weight: 400;
+      letter-spacing: 0.1px;
+      color: #86868b;
+      margin-top: 0.2 5rem;
+  }
+
+  .interestfree {
+      font-size: 14px;
+  }
+
+  .divider {
+      border-bottom: 1px solid lightgray;
+      margin: 1.5rem 0;
+  }
+
+  .deliverygrid {
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: 0.5rem;
+  }
+
+  .deliverygrid strong {
+      font-weight: 500;
+  }
+
+  .deliverygrid p {
+      font-size: 14px;
+      line-height: 1.42859;
+  }
+
+  .promogrid {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+  }
+
+  .promogrid div {
+      align-items: center;
+      justify-content: center;
+  }
+
+  .promogrid svg {
+      display: grid;
+      margin: 0 auto;
+      margin-top: 6px;
+  }
+
+  .promogrid p {
+      margin-top: 0.5rem;
+      font-size: 12px;
+      text-align: center;
+      font-weight: 500;
+  }
+
+  .contactgrid {
+      display: flex;
+      flex-direction: row;
+      gap: 0.25rem;
+      justify-self: center;
+      align-self: center;
+      width: fit-content;
+      margin: 0 auto;
+  }
+
+  .contactgrid a, .contactgrid p {
+      font-size: 12px;
+  }
+
+  .contactgrid p {
+      font-weight: 500;
+      margin-top: 0.2rem;
+  }
+
   }
