@@ -1,63 +1,68 @@
 let videoWidth, videoHeight;
 
-let qvga = {width: {exact: 320}, height: {exact: 240}};
+let qvga = { width: { exact: 320 }, height: { exact: 240 } };
 
-let vga = {width: {exact: 640}, height: {exact: 480}};
+let vga = { width: { exact: 640 }, height: { exact: 480 } };
 
 let resolution = window.innerWidth < 640 ? qvga : vga;
 
 let price = 1899;
 
 const renderPrice = (p) => {
-  var formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
+  var formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
 
-  // These options are needed to round to whole numbers if that's what you want.
-  //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
-  //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
-});
+    // These options are needed to round to whole numbers if that's what you want.
+    //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+    //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+  });
 
- return formatter.format(p); /* $2,500.00 */
-}
+  return formatter.format(p); /* $2,500.00 */
+};
 
 // whether streaming video from the camera.
 let streaming = false;
 
-let video = document.getElementById('video');
-let canvasOutput = document.getElementById('canvasOutput');
-let canvasOutputCtx = canvasOutput.getContext('2d');
+let video = document.getElementById("video");
+let canvasOutput = document.getElementById("canvasOutput");
+let canvasOutputCtx = canvasOutput.getContext("2d");
 let stream = null;
 
-let detectFace = document.getElementById('face');
-let detectEye = document.getElementById('eye');
+let detectFace = document.getElementById("face");
+let detectEye = document.getElementById("eye");
 
-let info = document.getElementById('info');
+let info = document.getElementById("info");
 
 function startCamera() {
   if (streaming) return;
-  navigator.mediaDevices.getUserMedia({video: resolution, audio: false})
-    .then(function(s) {
-    stream = s;
-    video.srcObject = s;
-    video.play();
-  })
-    .catch(function(err) {
-    console.log("An error occured! " + err);
-  });
+  navigator.mediaDevices
+    .getUserMedia({ video: resolution, audio: false })
+    .then(function (s) {
+      stream = s;
+      video.srcObject = s;
+      video.play();
+    })
+    .catch(function (err) {
+      console.log("An error occured! " + err);
+    });
 
-  video.addEventListener("canplay", function(ev){
-    if (!streaming) {
-      videoWidth = video.videoWidth;
-      videoHeight = video.videoHeight;
-      video.setAttribute("width", videoWidth);
-      video.setAttribute("height", videoHeight);
-      canvasOutput.width = videoWidth;
-      canvasOutput.height = videoHeight;
-      streaming = true;
-    }
-    startVideoProcessing();
-  }, false);
+  video.addEventListener(
+    "canplay",
+    function (ev) {
+      if (!streaming) {
+        videoWidth = video.videoWidth;
+        videoHeight = video.videoHeight;
+        video.setAttribute("width", videoWidth);
+        video.setAttribute("height", videoHeight);
+        canvasOutput.width = videoWidth;
+        canvasOutput.height = videoHeight;
+        streaming = true;
+      }
+      startVideoProcessing();
+    },
+    false
+  );
 }
 
 let faceClassifier = null;
@@ -75,27 +80,30 @@ let canvasBuffer = null;
 let canvasBufferCtx = null;
 
 function startVideoProcessing() {
-  if (!streaming) { console.warn("Please startup your webcam"); return; }
+  if (!streaming) {
+    console.warn("Please startup your webcam");
+    return;
+  }
   stopVideoProcessing();
-  canvasInput = document.createElement('canvas');
+  canvasInput = document.createElement("canvas");
   canvasInput.width = videoWidth;
   canvasInput.height = videoHeight;
-  canvasInputCtx = canvasInput.getContext('2d');
-  
-  canvasBuffer = document.createElement('canvas');
+  canvasInputCtx = canvasInput.getContext("2d");
+
+  canvasBuffer = document.createElement("canvas");
   canvasBuffer.width = videoWidth;
   canvasBuffer.height = videoHeight;
-  canvasBufferCtx = canvasBuffer.getContext('2d');
-  
+  canvasBufferCtx = canvasBuffer.getContext("2d");
+
   srcMat = new cv.Mat(videoHeight, videoWidth, cv.CV_8UC4);
   grayMat = new cv.Mat(videoHeight, videoWidth, cv.CV_8UC1);
-  
+
   faceClassifier = new cv.CascadeClassifier();
-  faceClassifier.load('haarcascade_frontalface_default.xml');
-  
+  faceClassifier.load("haarcascade_frontalface_default.xml");
+
   eyeClassifier = new cv.CascadeClassifier();
-  eyeClassifier.load('haarcascade_eye.xml');
-  
+  eyeClassifier.load("haarcascade_eye.xml");
+
   requestAnimationFrame(processVideo);
 }
 
@@ -116,46 +124,40 @@ function processVideo() {
       size = faceMat.size();
     } else {
       cv.pyrDown(grayMat, faceMat);
-      if (videoWidth > 320)
-        cv.pyrDown(faceMat, faceMat);
+      if (videoWidth > 320) cv.pyrDown(faceMat, faceMat);
       size = faceMat.size();
     }
     faceClassifier.detectMultiScale(faceMat, faceVect);
 
-        if (faceVect.size() < 1) {
-          lookingAtScreen = false;
-          console.log('No audience detected!');
-
-    
-    }
-    
-
-    for (let i = 0; i < faceVect.size(); i++) {
-      let face = faceVect.get(i);
-      lookingAtScreen = true;
-      console.log('Human is watching');
-        // will
+    if (faceVect.size() < 1) {
+      lookingAtScreen = false;
+      // console.log('No audience detected!');
+      // will
       price += 1;
       const elms = document.querySelectorAll(".base-price");
       for (let i = 0; i < elms.length; i++) {
         let elm = elms[i];
         elm.innerText = renderPrice(price);
       }
-      
+
       const proElm = document.querySelector(".pro-price");
       proElm.innerText = renderPrice(price + 300);
 
       const taxElm = document.querySelector(".tax-price");
-          taxElm.innerText = renderPrice(Math.floor(price - (price / 1.15)));
-          
+      taxElm.innerText = renderPrice(Math.floor(price - price / 1.15));
 
-          const intElm = document.querySelector(".int-price");
-          const base = (price - 1899) * 0.01;
-          // base starts at 0 and counts
-          // output to be 0.10 - 0.20 - 0.30 
-          intElm.innerText = Math.round((base + Number.EPSILON) * 10) / 10
+      const intElm = document.querySelector(".int-price");
+      const base = (price - 1899) * 0.01;
+      // base starts at 0 and counts
+      // output to be 0.10 - 0.20 - 0.30
+      intElm.innerText = Math.round((base + Number.EPSILON) * 10) / 10;
       //
+    }
 
+    for (let i = 0; i < faceVect.size(); i++) {
+      let face = faceVect.get(i);
+      lookingAtScreen = true;
+      // console.log('Human is watching');
 
       faces.push(new cv.Rect(face.x, face.y, face.width, face.height));
       if (detectEye.checked) {
@@ -164,7 +166,9 @@ function processVideo() {
         eyeClassifier.detectMultiScale(eyeMat, eyeVect);
         for (let i = 0; i < eyeVect.size(); i++) {
           let eye = eyeVect.get(i);
-          eyes.push(new cv.Rect(face.x + eye.x, face.y + eye.y, eye.width, eye.height));
+          eyes.push(
+            new cv.Rect(face.x + eye.x, face.y + eye.y, eye.width, eye.height)
+          );
         }
         eyeMat.delete();
         eyeVect.delete();
@@ -188,8 +192,8 @@ function processVideo() {
     }
   }
   canvasOutputCtx.drawImage(canvasInput, 0, 0, videoWidth, videoHeight);
-  drawResults(canvasOutputCtx, faces, 'red', size);
-  drawResults(canvasOutputCtx, eyes, 'yellow', size);
+  drawResults(canvasOutputCtx, faces, "red", size);
+  drawResults(canvasOutputCtx, eyes, "yellow", size);
   // stats.end();
   requestAnimationFrame(processVideo);
 }
@@ -197,11 +201,16 @@ function processVideo() {
 function drawResults(ctx, results, color, size) {
   for (let i = 0; i < results.length; ++i) {
     let rect = results[i];
-    let xRatio = videoWidth/size.width;
-    let yRatio = videoHeight/size.height;
+    let xRatio = videoWidth / size.width;
+    let yRatio = videoHeight / size.height;
     ctx.lineWidth = 3;
     ctx.strokeStyle = color;
-    ctx.strokeRect(rect.x*xRatio, rect.y*yRatio, rect.width*xRatio, rect.height*yRatio);
+    ctx.strokeRect(
+      rect.x * xRatio,
+      rect.y * yRatio,
+      rect.width * xRatio,
+      rect.height * yRatio
+    );
   }
 }
 
@@ -215,9 +224,12 @@ function stopVideoProcessing() {
 function stopCamera() {
   if (!streaming) return;
   stopVideoProcessing();
-  document.getElementById("canvasOutput").getContext("2d").clearRect(0, 0, width, height);
+  document
+    .getElementById("canvasOutput")
+    .getContext("2d")
+    .clearRect(0, 0, width, height);
   video.pause();
-  video.srcObject=null;
+  video.srcObject = null;
   stream.getVideoTracks()[0].stop();
   streaming = false;
 }
@@ -229,9 +241,9 @@ function initUI() {
 }
 
 function opencvIsReady() {
-  console.log('OpenCV.js is ready');
+  console.log("OpenCV.js is ready");
 
-  info.innerHTML = '';
+  info.innerHTML = "";
   initUI();
   startCamera();
 }

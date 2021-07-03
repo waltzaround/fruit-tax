@@ -89,6 +89,11 @@
       color: #1D1E20;
   }
 
+  html .selected {
+      border-color: #0071e3;
+      border-width: 2px;
+  }
+
   .mac-product {}
 
   .mac-product-img {
@@ -128,7 +133,7 @@
       font-size: 17px;
       line-height: 1.47059;
       font-weight: 400;
-      letter-spacing: 1px;
+      letter-spacing: 0.1px;
       padding-bottom: 1px;
   }
 
