@@ -125,13 +125,6 @@ function processVideo() {
         if (faceVect.size() < 1) {
           lookingAtScreen = false;
           console.log('No audience detected!');
-    }
-    
-
-    for (let i = 0; i < faceVect.size(); i++) {
-      let face = faceVect.get(i);
-      lookingAtScreen = true;
-      console.log('Human is watching');
 
       // will
       price += 1;
@@ -145,9 +138,23 @@ function processVideo() {
       proElm.innerText = renderPrice(price + 300);
 
       const taxElm = document.querySelector(".tax-price");
-      taxElm.innerText = renderPrice(price + 300);
+          taxElm.innerText = renderPrice(Math.floor(price - (price / 1.15)));
+          
 
+          const intElm = document.querySelector(".int-price");
+          const base = (price - 1899) * 0.01;
+          // base starts at 0 and counts
+          // output to be 0.10 - 0.20 - 0.30 
+          intElm.innerText = Math.round((base + Number.EPSILON) * 10) / 10
       //
+    }
+    
+
+    for (let i = 0; i < faceVect.size(); i++) {
+      let face = faceVect.get(i);
+      lookingAtScreen = true;
+      console.log('Human is watching');
+
 
       faces.push(new cv.Rect(face.x, face.y, face.width, face.height));
       if (detectEye.checked) {
